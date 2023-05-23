@@ -11,7 +11,7 @@ var flash = require("connect-flash");
 var MongoStore = require("connect-mongo")(session);
 
 var index = require("./routes/index");
-const port = 8000;
+const port = 9000;
 
 expressValidator = require("express-validator");
 
@@ -64,6 +64,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+var users = require("./routes/users");
 app.use("/", index);
 
 app.use(function (req, res, next) {
