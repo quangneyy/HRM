@@ -48,6 +48,32 @@ router.get("/view-profile", function viewProfile(req, res, next) {
   });
 });
 
+
+router.get("/view-all-employees", function viewAllEmployees(req, res, next) {
+  var userChunks = [];
+  var chunkSize = 3;
+  //find is asynchronous function
+  User.find({
+    $or: [
+      { type: "employee" },
+      { type: "project_manager" },
+      { type: "accounts_manager" },
+    ],
+  })
+    .sort({ _id: -1 })
+    .exec(function getUsers(err, docs) {
+      for (var i = 0; i < docs.length; i++) {
+        userChunks.push(docs[i]);
+      }
+      res.render("Admin/viewAllEmployee", {
+        title: "All Employees",
+        csrfToken: req.csrfToken(),
+        users: userChunks,
+        userName: req.session.user.name,
+      });
+    });
+});
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
