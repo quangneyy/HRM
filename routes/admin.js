@@ -238,10 +238,337 @@ router.get(
   }
 );
 
+router.get(
+  "/add-employee-project/:id",
+  function addEmployeeProject(req, res, next) {
+    var employeeId = req.params.id;
+    User.findById(employeeId, function getUser(err, user) {
+      if (err) {
+        res.redirect("/admin/");
+      }
+      res.render("Admin/addProject", {
+        title: "Add Employee Project",
+        csrfToken: req.csrfToken(),
+        employee: user,
+        moment: moment,
+        message: "",
+        userName: req.session.user.name,
+      });
+    });
+  }
+);
+
+router.get(
+  "/employee-project-info/:id",
+  function viewEmployeeProjectInfo(req, res, next) {
+    var projectId = req.params.id;
+    Project.findById(projectId, function getProject(err, project) {
+      if (err) {
+        console.log(err);
+      }
+      User.findById(project.employeeID, function getUser(err, user) {
+        if (err) {
+          console.log(err);
+        }
+        res.render("Admin/projectInfo", {
+          title: "Employee Project Information",
+          project: project,
+          employee: user,
+          moment: moment,
+          message: "",
+          userName: req.session.user.name,
+          csrfToken: req.csrfToken(),
+        });
+      });
+    });
+  }
+);
+
+router.get(
+  "/redirect-employee-profile",
+  function viewEmployeeProfile(req, res, next) {
+    var employeeId = req.user.id;
+    User.findById(employeeId, function getUser(err, user) {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect("/admin/employee-profile/" + employeeId);
+    });
+  }
+);
+
+router.post("/view-attendance", function viewAttendance(req, res, next) {
+  var attendanceChunks = [];
+  Attendance.find({
+    employeeID: req.session.user._id,
+    month: req.body.month,
+    year: req.body.year,
+  })
+    .sort({ _id: -1 })
+    .exec(function viewAttendanceSheet(err, docs) {
+      var found = 0;
+      if (docs.length > 0) {
+        found = 1;
+      }
+      for (var i = 0; i < docs.length; i++) {
+        attendanceChunks.push(docs[i]);
+      }
+      res.render("Admin/viewAttendanceSheet", {
+        title: "Attendance Sheet",
+        month: req.body.month,
+        csrfToken: req.csrfToken(),
+        found: found,
+        attendance: attendanceChunks,
+        userName: req.session.user.name,
+        moment: moment,
+      });
+    });
+});
+
+router.get(
+  "/view-attendance-current",
+  function viewCurrentlyMarkedAttendance(req, res, next) {
+    var attendanceChunks = [];
+
+    Attendance.find({
+      employeeID: req.session.user._id,
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    })
+      .sort({ _id: -1 })
+      .exec(function getAttendanceSheet(err, docs) {
+        var found = 0;
+        if (docs.length > 0) {
+          found = 1;
+        }
+        for (var i = 0; i < docs.length; i++) {
+          attendanceChunks.push(docs[i]);
+        }
+        res.render("Admin/viewAttendanceSheet", {
+          title: "Attendance Sheet",
+          month: new Date().getMonth() + 1,
+          csrfToken: req.csrfToken(),
+          found: found,
+          attendance: attendanceChunks,
+          moment: moment,
+          userName: req.session.user.name,
+        });
+      });
+  }
+);
+
+router.get(
+  "/view-employee-attendance/:id",
+  function viewEmployeeAttendance(req, res, next) {
+    var attendanceChunks = [];
+    Attendance.find({ employeeID: req.params.id })
+      .sort({ _id: -1 })
+      .exec(function getAttendanceSheet(err, docs) {
+        var found = 0;
+        if (docs.length > 0) {
+          found = 1;
+        }
+        for (var i = 0; i < docs.length; i++) {
+          attendanceChunks.push(docs[i]);
+        }
+
+        User.findById(req.params.id, function getUser(err, user) {
+          res.render("Admin/employeeAttendanceSheet", {
+            title: "Employee Attendance Sheet",
+            month: req.body.month,
+            csrfToken: req.csrfToken(),
+            found: found,
+            attendance: attendanceChunks,
+            moment: moment,
+            userName: req.session.user.name,
+            employee_name: user.name,
+          });
+        });
+      });
+  }
+);
+
+router.post(
+  "/add-employee",
+  passport.authenticate("local.add-employee", {
+    successRedirect: "/admin/redirect-employee-profile",
+    failureRedirect: "/admin/add-employee",
+    failureFlash: true,
+  })
+);
+
+router.post("/respond-application", function respondApplication(req, res) {
+  Leave.findById(req.body.leave_id, function getLeave(err, leave) {
+    leave.adminResponse = req.body.status;
+    leave.save(function saveLeave(err) {
+      if (err) {
+        console.log(err);
+      }
+      res.redirect("/admin/leave-applications");
+    });
+  });
+});
+
+router.post("/edit-employee/:id", function editEmployee(req, res) {
+  var employeeId = req.params.id;
+  var newUser = new User();
+  newUser.email = req.body.email;
+  if (req.body.designation == "Accounts Manager") {
+    newUser.type = "accounts_manager";
+  } else if (req.body.designation == "Project Manager") {
+    newUser.type = "project_manager";
+  } else {
+    newUser.type = "employee";
+  }
+  (newUser.name = req.body.name),
+    (newUser.dateOfBirth = new Date(req.body.DOB)),
+    (newUser.contactNumber = req.body.number),
+    (newUser.department = req.body.department);
+  newUser.Skills = req.body["skills[]"];
+  newUser.designation = req.body.designation;
+
+  User.findById(employeeId, function getUser(err, user) {
+    if (err) {
+      res.redirect("/admin/");
+    }
+    if (user.email != req.body.email) {
+      User.findOne({ email: req.body.email }, function getUser(err, user) {
+        if (err) {
+          res.redirect("/admin/");
+        }
+        if (user) {
+          res.render("Admin/editEmployee", {
+            title: "Edit Employee",
+            csrfToken: req.csrfToken(),
+            employee: newUser,
+            moment: moment,
+            message: "Email is already in use",
+            userName: req.session.user.name,
+          });
+        }
+      });
+    }
+    user.email = req.body.email;
+    if (req.body.designation == "Accounts Manager") {
+      user.type = "accounts_manager";
+    } else if (req.body.designation == "Project Manager") {
+      user.type = "project_manager";
+    } else {
+      user.type = "employee";
+    }
+    (user.name = req.body.name),
+      (user.dateOfBirth = new Date(req.body.DOB)),
+      (user.contactNumber = req.body.number),
+      (user.department = req.body.department);
+    user.Skills = req.body["skills[]"];
+    user.designation = req.body.designation;
+
+    user.save(function saveUser(err) {
+      if (err) {
+        console.log(error);
+      }
+      res.redirect("/admin/employee-profile/" + employeeId);
+    });
+  });
+});
+
+router.post("/add-employee-project/:id", function addEmployeeProject(req, res) {
+  var newProject = new Project();
+  newProject.employeeID = req.params.id;
+  newProject.title = req.body.title;
+  newProject.type = req.body.type;
+  (newProject.startDate = new Date(req.body.start_date)),
+    (newProject.endDate = new Date(req.body.end_date)),
+    (newProject.description = req.body.description),
+    (newProject.status = req.body.status);
+
+  newProject.save(function saveProject(err) {
+    if (err) {
+      console.log(err);
+    }
+    res.redirect("/admin/employee-project-info/" + newProject._id);
+  });
+});
+
+router.post(
+  "/edit-employee-project/:id",
+  function editEmployeeProject(req, res) {
+    var projectId = req.params.id;
+    var newProject = new Project();
+
+    Project.findById(projectId, function (err, project) {
+      if (err) {
+        console.log(err);
+      }
+      project.title = req.body.title;
+      project.type = req.body.type;
+      (project.startDate = new Date(req.body.start_date)),
+        (project.endDate = new Date(req.body.end_date)),
+        (project.description = req.body.description),
+        (project.status = req.body.status);
+
+      project.save(function saveProject(err) {
+        if (err) {
+          console.log(err);
+        }
+        res.redirect("/admin/employee-project-info/" + projectId);
+      });
+    });
+  }
+);
+
+router.post("/delete-employee/:id", function deleteEmployee(req, res) {
+  var id = req.params.id;
+  User.findByIdAndRemove({ _id: id }, function deleteUser(err) {
+    if (err) {
+      console.log("unable to delete employee");
+    } else {
+      res.redirect("/admin/view-all-employees");
+    }
+  });
+});
+
+router.post("/mark-attendance", function markAttendance(req, res, next) {
+  Attendance.find(
+    {
+      employeeID: req.session.user._id,
+      date: new Date().getDate(),
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    },
+    function getAttendance(err, docs) {
+      var found = 0;
+      if (docs.length > 0) {
+        found = 1;
+      } else {
+        var newAttendance = new Attendance();
+        newAttendance.employeeID = req.session.user._id;
+        newAttendance.year = new Date().getFullYear();
+        newAttendance.month = new Date().getMonth() + 1;
+        newAttendance.date = new Date().getDate();
+        newAttendance.present = 1;
+        newAttendance.save(function saveAttendance(err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+      res.redirect("/admin/view-attendance-current");
+    }
+  );
+});
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}
+
+function notLoggedIn(req, res, next) {
+  if (!req.isAuthenticated()) {
     return next();
   }
   res.redirect("/");

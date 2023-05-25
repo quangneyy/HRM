@@ -20,7 +20,7 @@
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: rgb(97, 60, 60);
+  background: rgb(43, 37, 63);
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -148,7 +148,6 @@
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
     width: auto;
-
   }
 }
 tfoot {
