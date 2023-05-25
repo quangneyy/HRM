@@ -11,6 +11,7 @@ var flash = require("connect-flash");
 var MongoStore = require("connect-mongo")(session);
 
 var index = require("./routes/index");
+var users = require("./routes/users");
 const port = 9000;
 
 expressValidator = require("express-validator");
