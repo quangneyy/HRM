@@ -74,6 +74,20 @@ router.get("/view-all-employees", function viewAllEmployees(req, res, next) {
     });
 });
 
+router.get("/add-employee", function addEmployee(req, res, next) {
+  var messages = req.flash("error");
+  var newUser = new User();
+
+  res.render("Admin/addEmployee", {
+    title: "Add Employee",
+    csrfToken: req.csrfToken(),
+    user: config_passport.User,
+    messages: messages,
+    hasErrors: messages.length > 0,
+    userName: req.session.user.name,
+  });
+});
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
