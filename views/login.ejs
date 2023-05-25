@@ -70,20 +70,18 @@
 
     <script src="/javascripts/prefixfree.min.js"></script>
 
-
-
 </head>
 
 <body>
 
 <div class="login">
-    <h1>HR Management System</h1>
+    <h1>Hệ Thống Quản Lý Nhân Sự</h1>
 
     <form action="/login" method="post">
         <input type="text" id="email" name="email" placeholder="Enter Email Address" required="required" />
         <input type="password" id="password" name="password" placeholder="Enter Password" required="required" />
         <input type="hidden" name="_csrf" value="<%=csrfToken%>">
-        <button type="submit" id="login" onclick="validate()" class="btn btn-primary btn-block btn-large">Login</button>
+        <button type="submit" id="login" onclick="validate()" class="btn btn-primary btn-block btn-large">Đăng nhập</button>
         <%if(hasErrors){%>
         <% messages.forEach(function(item){%>
         <label style="color: red;" id="message"><%=item%></label>
@@ -97,7 +95,6 @@
 <script src="/javascripts/index.js"></script>
 <script>
     function validate() {
-        //document.getElementById("message").innerHTML = "Incorrect Username or Password";
     }
 </script>
 
