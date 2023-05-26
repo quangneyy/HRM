@@ -13,6 +13,7 @@ var MongoStore = require("connect-mongo")(session);
 var index = require("./routes/index");
 var users = require("./routes/users");
 var admin = require("./routes/admin");
+var manager = require("./routes/manager");
 const port = 9000;
 
 expressValidator = require("express-validator");
@@ -69,6 +70,7 @@ app.use(passport.session());
 app.use("/", index);
 app.use("/users", users);
 app.use("/admin", admin);
+app.use("/manager", manager);
 
 app.use(function (req, res, next) {
   res.locals.login = req.isAuthenticated();
