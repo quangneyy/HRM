@@ -14,6 +14,7 @@ var index = require("./routes/index");
 var users = require("./routes/users");
 var admin = require("./routes/admin");
 var manager = require("./routes/manager");
+var employee = require("./routes/employee");
 const port = 9000;
 
 expressValidator = require("express-validator");
