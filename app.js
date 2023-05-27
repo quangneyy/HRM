@@ -71,6 +71,7 @@ app.use("/", index);
 app.use("/users", users);
 app.use("/admin", admin);
 app.use("/manager", manager);
+app.use("/employee", employee);
 
 app.use(function (req, res, next) {
   res.locals.login = req.isAuthenticated();
