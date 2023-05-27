@@ -47,7 +47,7 @@
                 <a href="/manager/applied-leaves"><span class="fa-stack fa-lg pull-left"><i
                                 class="fa fa-dashboard fa-stack-1x "></i></span> Xem đơn xin nghỉ phép</a>
             </li>
-            <li>
+            <li class="active">
                 <a href="/manager/view-employees">
                     <button type="submit" style="background: transparent; border: transparent;"><i
                                 class="fa fa-users fa-lg " aria-hidden="true"></i> Xem nhân viên
@@ -76,27 +76,141 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <h1>All Employees</h1>
+                    <% if (errors === 1) { %>
+                    <div class="alert alert-danger">
+                        <strong>Alert!</strong>Performance appraisal already submitted for this employee .
+                    </div>
+                    <% } %>
+                    <div style="height:600px; overflow: auto">
+
+                        <table id="example" class="display" cellspacing="0" style="height: 10%; overflow: auto;">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th ></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th></th>
+                             </tr>
+                            </tfoot>
+                            <tbody>
+                            <% users.forEach(function(item){ %>
+
+                            <tr>
+                                <td><%= item.name %></td>
+                                <td><%= item.email %></td>
+                                <td><%= item.contactNumber %></td>
+                                <td><%if(!item.department){%>
+                                    <%="N/A"%>
+                                    <%
+                                    }
+                                    else{%>
+                                    <%=item.department%>
+                                    <%}%></td>
+                                <td><%if(!item.designation){%>
+                                    <%="N/A"%>
+                                    <%
+                                    }
+                                    else{%>
+                                    <%=item.designation%>
+                                    <%}%></td>
+                                <td>
+                                    <table cellspacing="0px">
+                                        <tr>
+                                            <td style="padding: 0%;">
+                                                <form method="get"
+                                                      action="/manager/all-employee-skills/<%= item._id %>">
+                                                    <button type="submit"><i class="fa fa-laptop fa-lg"
+                                                                             title="View Employee Skills"
+                                                                             aria-hidden="true"></i></button>
+                                                </form>
+                                            </td>
+                                            <td style="padding: 0%;">
+                                                <form method="get"
+                                                      action="/manager/all-employee-projects/<%= item._id %>">
+                                                    <button type="submit"><i class="fa fa-tasks"
+                                                                             title="View Employee Projects"
+                                                                             aria-hidden="true"></i></button>
+                                                </form>
+                                            </td>
+                                            <td style="padding: 0%;">
+                                                <form method="get"
+                                                      action="/manager/provide-performance-appraisal/<%= item._id %>">
+                                                    <button><i class="fa fa-thumbs-up fa-lg"
+                                                               title="Provide Performance Appraisal"
+                                                               aria-hidden="true"></i></button>
+                                                </form>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- /#page-content-wrapper -->
 
+
 </div>
 <!-- /#wrapper -->
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.js" charset="UTF-8"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-
-
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="/javascripts/sidebar_menu.js"></script>
 <script>
 
     $(document).ready(function () {
+
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $(this).text();
+            if (title != " ") {
+                $(this).html('<input type="text" class="form-control" placeholder="Search ' + title + '" />');
+            }
+        });
+
+        $('#example').dataTable({
+            /* No ordering applied by DataTables during initialisation */
+            "order": []
+        });
         for (i = new Date().getFullYear(); i > 1900; i--) {
             $('#year').append($('<option />').val(i).html(i));
         }
+        // DataTable
+        var table = $('#example').DataTable();
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                            .search(this.value)
+                            .draw();
+                }
+            });
+        });
     });
 </script>
 </body>

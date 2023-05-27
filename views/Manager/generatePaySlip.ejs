@@ -76,7 +76,75 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <h1>Pay Slip Details</h1>
+                    <br>
+                    <div id="menu1" style="overflow: auto;">
+                        <form action="/manager/generate-pay-slip" method="post">
+                            <div class="form-group">
+                                <label for="bname">Bank Name:</label>
+                                <% if(hasPaySlip){ %>
+
+                                <input type="text" class="form-control" required="required"
+                                       value="<%= pay_slip.bankName %>" id="bname" name="bname">
+                                <% }else{ %>
+
+                                <input type="text" class="form-control" required="required" id="bname" name="bname">
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="baddress">Branch Address:</label>
+                                <% if(hasPaySlip){ %>
+
+                                <input type="text" class="form-control" required="required"
+                                       value="<%= pay_slip.branchAddress %>" id="baddress" name="baddress">
+                                <% }else{ %>
+
+                                <input type="text" class="form-control" required="required" id="baddress"
+                                       name="baddress">
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="pay">Basic Pay (RS):</label>
+                                <% if(hasPaySlip){ %>
+
+                                <input type="number" pattern="^[0-9]" title='Only Number' min="1" step="1" class="form-control" required="required"
+                                       value="<%= pay_slip.basicPay %>" id="pay" name="pay">
+                                <% }else{ %>
+
+                                <input type="number" pattern="^[0-9]" title='Only Number' min="1" step="1" class="form-control" required="required" id="pay" name="pay">
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="otime">Over Time(hours):</label>
+                                <% if(hasPaySlip){ %>
+
+                                <input type="number" pattern="^[0-9]" title='Only Number' min="1" step="1" required="required" class="form-control"
+                                       value="<%= pay_slip.overtime %>" id="otime" name="otime">
+                                <% }else{ %>
+
+                                <input type="number" pattern="^[0-9]" title='Only Number' min="1" step="1" required="required" class="form-control" id="otime" name="otime">
+                                <% } %>
+                            </div>
+                            <div class="form-group">
+                                <label for="allowance">Conveyance Allowance(RS):</label>
+                                <% if(hasPaySlip){ %>
+                                <input type="number" required="required" pattern="^[0-9]" title='Only Number' min="1" step="1" class="form-control"
+                                       value="<%= pay_slip.conveyanceAllowance %>" id="allowance" name="allowance">
+                                <% }else{ %>
+                                <input type="number" pattern="^[0-9]" title='Only Number' min="1" step="1" required="required" class="form-control" id="allowance"
+                                       name="allowance">
+                                <% } %>
+
+                            </div>
+                            <br>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" id="employee_id" name="employee_id" value="<%= pay_slip.employeeID %>">
+                            <button type="button" onclick="history.go(-1);" class="btn btn-default">Cancel</button>
+                            <button type="submit" data-toggle="modal" data-target="#myModal1" class="btn btn-default">
+                                Generate
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,7 +156,7 @@
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-
+<script src="/javascripts/confirmation.js"></script>
 
 <script src="/javascripts/sidebar_menu.js"></script>
 <script>
@@ -97,6 +165,34 @@
         for (i = new Date().getFullYear(); i > 1900; i--) {
             $('#year').append($('<option />').val(i).html(i));
         }
+        $('#pay').bind('keypress', function (e) {
+            if (e.which < 48 ||
+                    (e.which > 57 && e.which < 65) ||
+                    (e.which > 90 && e.which < 97) ||
+                    e.which > 122) {
+                e.preventDefault();
+            }
+
+        });
+        $('#allowance').bind('keypress', function (e) {
+            if (e.which < 48 ||
+                    (e.which > 57 && e.which < 65) ||
+                    (e.which > 90 && e.which < 97) ||
+                    e.which > 122) {
+                e.preventDefault();
+            }
+
+        });
+        $('#otime').bind('keypress', function (e) {
+            if (e.which < 48 ||
+                    (e.which > 57 && e.which < 65) ||
+                    (e.which > 90 && e.which < 97) ||
+                    e.which > 122) {
+                e.preventDefault();
+            }
+
+        });
+
     });
 </script>
 </body>

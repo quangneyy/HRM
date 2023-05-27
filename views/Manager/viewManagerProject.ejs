@@ -76,7 +76,24 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <div id="menu1">
+                        <h1>Project's Details</h1>
+                        <br>
+                        <form class="form-group-sm">
+                            <h4>Title : <label id="title"><%= project.title %></label></h4>
+                            <h4>Type : <label id="type"><%= project.type %></label></h4>
+                            <h4>Status : <label id="status"><%= project.status %></label></h4>
+                            <h4>Start Date : <label
+                                        id="start"><%= moment(project.startDate).format('MMMM Do YYYY'); %></label></h4>
+                            <h4>End Date : <label
+                                        id="end"><%= moment(project.endDate).format('MMMM Do YYYY'); %></label></h4><br>
+                            <h4 style="font-size: x-large">Description:</h4>
+                            <div style="height: 250px; overflow: auto;">
+                                <p style="font-family: 'Arial Nova'; font-size: medium" id="description"
+                                   style="word-wrap: break-word;"><%= project.description; %></p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

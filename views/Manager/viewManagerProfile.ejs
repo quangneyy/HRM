@@ -63,9 +63,9 @@
             </li>
             <li data-toggle="modal" data-target="#myModal2">
                 <a href="#"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-check-circle fa-stack-1x "></i></span>Đánh dấu tham dự</a>
+                                class="fa fa-check-circle fa-stack-1x "></i></span>Đánh giá tham dự</a>
             </li>
-            <li>
+            <li class="active">
                 <a href="/manager/view-profile"><span class="fa-stack fa-lg pull-left"><i
                                 class="fa fa-user fa-stack-1x "></i></span>Xem Hồ Sơ</a>
             </li>
@@ -76,7 +76,54 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <div id="menu1">
+                        <h1>Profile</h1>
+                        <br>
+                        <form class="form-group-sm" method="get" action="/manager/view-all-personal-projects">
+                            <h4>Name : <label id="name"><%= employee.name %></label></h4>
+                            <h4>Email : <label id="type"><%= employee.email %></label></h4>
+                            <h4>Date of Birth : <label
+                                        id="dob"><%= moment(employee.dateOfBirth).format('MMMM Do YYYY') %></label></h4>
+                            <h4>Department : <label id="department"><% if(!employee.department){%>
+                                    <%="N/A"%>
+                                    <%
+                                    }
+                                    else{%>
+                                    <%=employee.department%>
+                                    <%}%></label></h4>
+                            <h4>Designation : <label id="designation"><% if(!employee.designation){%>
+                                    <%="N/A"%>
+                                    <%
+                                    }
+                                    else{%>
+                                    <%=employee.designation%>
+                                    <%}%></label></h4>
+                            <%if(employee.type=="project_manager"){%>
+                            <h4>Projects : <label id="projects">
+                                    <button type="submit" class="form-control">View Projects</button>
+                                </label></h4>
+
+                            <% if(employee.Skills.length > 0){ %>
+
+                            <h4>Skills:</h4>
+                            <div style="height: 250px; overflow: auto;">
+                                <ul class="list-group" id="skills">
+                                    <%
+                                    employee.Skills.forEach(function(val){
+                                    if(val != ""){ %>
+                                    <li class="list-group-item"><%= val %></li>
+
+                                    <% }
+                                    }) %>
+
+                                </ul>
+                            </div>
+                            <% }else{ %>
+                            <h4>Skills : <label id="skills">N/A</label></h4>
+                            <% } %>
+                            <%}%>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -76,7 +76,25 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <div id="menu1">
+                        <h1>Project Information</h1>
+                        <br>
+                        <form class="form-group-sm">
+                            <h4>Employee: <label id="title"><%= employee.name %></label></h4>
+                            <h4>Title : <label id="title"><%= project.title %></label></h4>
+                            <h4>Type : <label id="type"><%= project.type %></label></h4>
+                            <h4>Status : <label id="status"><%= project.status %></label></h4>
+                            <h4>Start Date : <label
+                                        id="start"><%= moment(project.startDate).format('MMMM Do YYYY'); %></label></h4>
+                            <h4>End Date : <label
+                                        id="end"><%= moment(project.endDate).format('MMMM Do YYYY'); %></label></h4><br>
+                            <h4 style="font-size: x-large">Description:</h4>
+                            <div style="height: 250px; overflow: auto;">
+                                <p style="font-family: 'Arial Nova'; font-size: medium" id="description"
+                                   style="word-wrap: break-word;"><%= project.description; %></p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,18 +106,20 @@
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-
-
 <script src="/javascripts/sidebar_menu.js"></script>
 <script>
-
     $(document).ready(function () {
+        var box1height = $('#menu1').height();
+        // Set box2 height equal to box1
+        $('#sidebar-wrapper').height(box1height * 1.2);
         for (i = new Date().getFullYear(); i > 1900; i--) {
             $('#year').append($('<option />').val(i).html(i));
         }
+
     });
 </script>
 </body>
+
 
 <div id="myModal2" class="modal fade" role="dialog">
     <div class="modal-dialog">

@@ -43,7 +43,7 @@
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
-            <li>
+            <li class="active">
                 <a href="/manager/applied-leaves"><span class="fa-stack fa-lg pull-left"><i
                                 class="fa fa-dashboard fa-stack-1x "></i></span> Xem đơn xin nghỉ phép</a>
             </li>
@@ -56,7 +56,8 @@
             </li>
             <li>
                 <a href="/manager/apply-for-leave"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-envelope-square fa-stack-1x "></i></span>Nộp đơn xin nghỉ phép</a>
+                                class="fa fa-envelope-square fa-stack-1x "></i></span>Nộp đơn xin nghỉ phép
+</a>
             </li>
             <li data-toggle="modal" data-target="#myModal">
                 <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem tham dự</a>
@@ -76,27 +77,105 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Welcome!</h1>
+                    <h1>Danh sách các dự án của nhân viên</h1>
+
+                    <h2>Nhân viên: <%= user.name %></h2>
+                    <% if(hasProject === 1){ %>
+
+                    <div style="height:600px; overflow: auto">
+                        <table id="example" class="display" cellspacing="0" style="height: 10%; overflow: auto;">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <% projects.forEach(function(item){ %>
+                            <tr>
+                                <td><%= item.title %></td>
+                                <td><%= item.type %></td>
+                                <td><%= item.status %></td>
+                                <td>
+                                    <table cellspacing="0px">
+                                        <tr>
+                                            <td style="padding: 0%;">
+                                                <form method="get"
+                                                      action="/manager/employee-project-info/<%= item._id %>">
+                                                    <button type="submit"><i class="fa fa-eye"
+                                                                             title="View Projects Details"
+                                                                             aria-hidden="true"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% }else{ %>
+                    <p><%= user.name %> không liên kết với bất kỳ dự án nào</p>
+                    <% } %>
                 </div>
             </div>
         </div>
     </div>
     <!-- /#page-content-wrapper -->
 
+
 </div>
 <!-- /#wrapper -->
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.js" charset="UTF-8"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
-
-
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="/javascripts/sidebar_menu.js"></script>
 <script>
 
     $(document).ready(function () {
+
+        $('#example').dataTable({
+            /* No ordering applied by DataTables during initialisation */
+            "order": []
+        });
         for (i = new Date().getFullYear(); i > 1900; i--) {
             $('#year').append($('<option />').val(i).html(i));
         }
+
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $(this).text();
+            if (title != " ") {
+                $(this).html('<input type="text" class="form-control" placeholder="Search ' + title + '" />');
+            }
+        });
+
+        // DataTable
+        var table = $('#example').DataTable();
+
+        // Apply the search
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                            .search(this.value)
+                            .draw();
+                }
+            });
+        });
     });
 </script>
 </body>
@@ -168,4 +247,5 @@
 
     </div>
 </div>
+
 </html>
