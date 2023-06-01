@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css"/>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
     <link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
-    <link href="/stylesheets/bootstrap-select.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <link href="/stylesheets/bootstrap-select.min.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css'/>
 
 </head>
@@ -19,7 +20,7 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
             <span class="glyphicon glyphicon-th-large" style="margin-left:5px;" aria-hidden="true"></span>
         </button>
-        <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i> <%= name%></a>
+        <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i> <%= userName %></a>
     </div><!-- navbar-header-->
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,11 +46,11 @@
 
             <li>
                 <a href="#" id="menu3"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-users fa-stack-1x "></i></span> Nhân Viên </a>
+                                class="fa fa-users fa-stack-1x "></i></span> Nhân Viên</a>
                 <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                     <li><a href="/admin/view-all-employees"><span class="fa-stack fa-lg pull-left"><i
                                         class="fa fa-eye fa-stack-1x "></i></span>Xem nhân viên</a></li>
-                    <li class="active"><a href="/admin/add-employee"><span class="fa-stack fa-lg pull-left"><i
+                    <li><a href="/admin/add-employee"><span class="fa-stack fa-lg pull-left"><i
                                         class="fa fa-plus fa-stack-1x "></i></span>Thêm nhân viên</a></li>
                 </ul>
             </li>
@@ -57,11 +58,13 @@
                 <a href="/admin/leave-applications"><span class="fa-stack fa-lg pull-left"><i
                                 class="fa fa-envelope-square fa-stack-1x "></i></span> Đơn xin nghỉ phép</a></li>
             <li data-toggle="modal" data-target="#myModal">
-                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem đơn nghỉ phép</a>
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem
+                    Sự tham dự</a>
             </li>
             <li data-toggle="modal" data-target="#myModal2">
                 <a href="#"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-check-circle fa-stack-1x "></i></span>Dánh dấu nghỉ phép</a>
+                                class="fa fa-check-circle fa-stack-1x "></i></span>
+                                Đánh dấu tham dự</a>
             </li>
             <li>
                 <a href="/admin/view-profile"><span class="fa-stack fa-lg pull-left"><i
@@ -74,233 +77,155 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>THông tin nhân viên</h1>
-                    <div id="menu1" style=" height:717px ;overflow: auto;">
-
-                        <form class="form-group-sm" action="/admin/add-employee" method="post">
+                    <h1>Thông tin nhân viên</h1>
+                    <div id="menu1" style="height:717px;overflow: auto;">
+                        <form class="form-group-sm" action="/admin/edit-employee/<%= employee._id %>" method="post">
                             <div class="form-group">
                                 <label for="name">Tên:</label>
-                                <% if (hasErrors){ %>
                                 <input type="text" onkeypress="return onlyAlphabets(event,this);" class="form-control"
-                                       value="<%= user.name %>" required="required" id="name" name="name">
-                                <% }else{ %>
-                                <input type="text" onkeypress="return onlyAlphabets(event,this);" class="form-control"
-                                       required="required" id="name" name="name">
-                                <% } %>
+                                       value="<%= employee.name %>" required="required" id="name" name="name">
                             </div>
                             <div class="form-group">
-                                <label for="email">Địa chỉ email:</label>
-                                <% if (hasErrors){ %>
-                                <input type="email" class="form-control" value="<%= user.email %>" required="required"
-                                       id="email" name="email">
-                                <% }else{ %>
-                                <input type="email" class="form-control" required="required" id="email" name="email">
-                                <% } %>
-                                <% if(hasErrors){ %>
-                                <% messages.forEach(function(item){
-                                if(item === "Email is already in use"){
-                                %>
-                                <label style="color: red;" id="message"><%= item %></label>
-                                <% }
-                                }) %>
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" value="<%= employee.email %>"
+                                       required="required" id="email" name="email">
+                                <% if(message != ""){ %>
+                                <label style="color: red;" id="message"><%= message %></label>
 
                                 <% } %>
                             </div>
                             <div class="form-group">
-                                <label for="DOB">Năm sinh:</label>
-                                <% if (hasErrors){ %>
+                                <label for="DOB">Ngày Sinh:</label>
                                 <input type="date" class="form-control"
-                                       value="<%= new Date(user.dateOfBirth).toISOString().substring(0, 10); %>"
+                                       value="<%= new Date(employee.dateOfBirth).toISOString().substring(0, 10); %>"
                                        required="required" id="DOB" name="DOB">
-                                <% }else{ %>
-                                <input type="date" class="form-control" required="required" id="DOB" name="DOB">
-                                <% } %>
-
                             </div>
-                            <div class="form-group">
-                                <label for="pwd">Mật khẩu:</label>
 
-                                <input type="password" minlength="6" required="required" class="form-control"
-                                       id="password" name="password">
-
-                            </div>
                             <div class="form-group">
-                                <label for="number">Số điện thoại:</label>
-                                <% if (hasErrors){ %>
+                                <label for="number">Số DT:</label>
                                 <input type="text" pattern="03[0-9]{2}-(?!1234567)(?!1111111)(?!7654321)[0-9]{7}"
-                                       value="<%= user.contactNumber %>" class="form-control" required="required"
+                                       class="form-control" value="<%= employee.contactNumber %>" required="required"
                                        placeholder="e.g. XXXX-XXXXXXX" id="number" name="number">
-                                <% }else{ %>
-                                <input type="text" pattern="03[0-9]{2}-(?!1234567)(?!1111111)(?!7654321)[0-9]{7}"
-                                       class="form-control" required="required" placeholder="e.g. XXXX-XXXXXXX"
-                                       id="number" name="number">
-                                <% } %>
-
                             </div>
                             <div class="form-group">
                                 <label for="department">Phòng:</label>
-                                <% if (hasErrors){ %>
                                 <select class="form-control" id="department" name="department">
-                                    <option value="<%= user.department %>"><%= user.department %></option>
-                                    <% if (user.department != "N/A"){ %>
+                                    <option value="<%= employee.department %>"><%= employee.department %></option>
+                                    <% if (employee.department != "N/A"){ %>
                                     <option value="N/A">N/A</option>
                                     <% } %>
-                                    <% if (user.department != "Human Resource"){ %>
+                                    <% if (employee.department != "Human Resource"){ %>
                                     <option value="Human Resource">Nguồn nhân lực</option>
                                     <% } %>
-                                    <% if (user.department != "Software Development"){ %>
+                                    <% if (employee.department != "Software Development"){ %>
                                     <option value="Software Development">Phát triển phần mềm</option>
                                     <% } %>
-                                    <% if (user.department != "IT consulting"){ %>
+                                    <% if (employee.department != "IT consulting"){ %>
                                     <option value="IT consulting">Tư vấn CNTT</option>
                                     <% } %>
-                                    <% if (user.department != "Quality Assurance"){ %>
-                                    <option value="Quality Assurance">Đảm bảo chất lượng</option>
+                                    <% if (employee.department != "Quality Assurance"){ %>
+                                    <option value="Quality Assurance">
+                                        Đảm bảo chất lượng</option>
                                     <% } %>
-                                    <% if (user.department != "Accounts"){ %>
-                                    <option value="Accounts">tài khoản</option>
-                                    <% } %>
-                                    <% if (user.department != "Marketing"){ %>
-                                    <option value="Marketing">Marketing</option>
-                                    <% } %>
-                                    <% if (user.department != "Business Analysis"){ %>
-                                    <option value="Business Analysis">Phân tích kinh doanh</option>
-                                    <% } %>
-                                </select>
-
-                                <% }else{ %>
-                                <select class="form-control" id="department" name="department">
-                                    <option value="N/A">N/A</option>
-                                    <option value="Human Resource">nguồn nhân lực</option>
-                                    <option value="Software Development">Phát triển phần mềm</option>
-                                    <option value="IT consulting">Tư vấn CNTT</option>
-                                    <option value="Quality Assurance">Dảm bảo chất lượng</option>
+                                    <% if (employee.department != "Accounts"){ %>
                                     <option value="Accounts">Tài khoản</option>
+                                    <% } %>
+                                    <% if (employee.department != "Marketing"){ %>
                                     <option value="Marketing">Marketing</option>
+                                    <% } %>
+                                    <% if (employee.department != "Business Analysis"){ %>
                                     <option value="Business Analysis">Phân tích kinh doanh</option>
-                                </select>
-                                <% } %>
+                                    <% } %>
 
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="skills">Kỹ năng:</label><br>
-                                <% if (hasErrors && typeof user.Skills != "undefined"){ %>
-
                                 <select class="selectpicker" id="skills" name="skills[]" multiple>
                                     <%
-                                    user.Skills.forEach(function(val){
+                                    employee.Skills.forEach(function(val){
                                     if(val != ""){ %>
                                     <option selected="selected"><%= val %></option>
                                     <% }
                                     });
                                     %>
-                                    <% if (user.Skills.indexOf("Front End") < 0){ %>
+                                    <% if (employee.Skills.indexOf("Front End") < 0){ %>
                                     <option>Front End</option>
                                     <% } %>
 
-                                    <% if (user.Skills.indexOf("ROR") < 0){ %>
+                                    <% if (employee.Skills.indexOf("ROR") < 0){ %>
                                     <option>ROR</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf(".NET") < 0){ %>
+                                    <% if (employee.Skills.indexOf(".NET") < 0){ %>
                                     <option>.NET</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf("PHP") < 0){ %>
+                                    <% if (employee.Skills.indexOf("PHP") < 0){ %>
                                     <option>PHP</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf("Python Django (ERP)") < 0){ %>
+                                    <% if (employee.Skills.indexOf("Python Django (ERP)") < 0){ %>
                                     <option>Python Django (ERP)</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf("Mobile Development") < 0){ %>
+                                    <% if (employee.Skills.indexOf("Mobile Development") < 0){ %>
                                     <option>Mobile Development</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf("Big Data Analytics") < 0){ %>
+                                    <% if (employee.Skills.indexOf("Big Data Analytics") < 0){ %>
                                     <option>Big Data Analytics</option>
                                     <% } %>
-                                    <% if (user.Skills.indexOf("Firmware") < 0){ %>
+                                    <% if (employee.Skills.indexOf("Firmware") < 0){ %>
                                     <option>Firmware</option>
                                     <% } %>
                                 </select>
-
-                                <% }else{ %>
-
-                                <select class="selectpicker" id="skills" name="skills[]" multiple>
-                                    <option>N/A</option>
-                                    <option>ROR</option>
-                                    <option>.NET</option>
-                                    <option>PHP</option>
-                                    <option>Python Django (ERP)</option>
-                                    <option>Mobile Development</option>
-                                    <option>Big Data Analytics</option>
-                                    <option>Firmware</option>
-
-                                </select>
-
-                                <% } %>
 
                             </div>
                             <div class="form-group">
                                 <label for="designation">Chỉ định:</label>
-                                <% if (hasErrors){ %>
-
                                 <select class="form-control" id="designation" name="designation">
-                                    <option value="<%= user.designation %>"><%= user.designation %></option>
-                                    <% if (user.designation != "N/A"){ %>
+                                    <option value="<%= employee.designation %>"><%= employee.designation %></option>
+                                    <% if (employee.designation != "N/A"){ %>
                                     <option value="N/A">N/A</option>
                                     <% } %>
-                                    <% if (user.designation != "System Analyst"){ %>
+                                    <% if (employee.designation != "System Analyst"){ %>
                                     <option value="System Analyst">Nhà phân tích hệ thống</option>
                                     <% } %>
-                                    <% if (user.designation != "Accounts Manager"){ %>
+                                    <% if (employee.designation != "Accounts Manager"){ %>
                                     <option value="Accounts Manager">Quản lý tài khoản</option>
                                     <% } %>
-                                    <% if (user.designation != "Project Manager"){ %>
+                                    <% if (employee.designation != "Project Manager"){ %>
                                     <option value="Project Manager">Quản lý dự án</option>
                                     <% } %>
-                                    <% if (user.designation != "Software Engineer"){ %>
+                                    <% if (employee.designation != "Software Engineer"){ %>
                                     <option value="Software Engineer">Kỹ sư phần mềm</option>
                                     <% } %>
-                                    <% if (user.designation != "Sr.Software Engineer"){ %>
+                                    <% if (employee.designation != "Sr.Software Engineer"){ %>
                                     <option value="Software Engineer">Kỹ sư phần mềm</option>
                                     <% } %>
-                                    <% if (user.designation != "Project Lead"){ %>
-                                    <option value="Project Lead">Trưởng dự án</option>
+                                    <% if (employee.designation != "Project Lead"){ %>
+                                    <option value="Project Lead">
+                                        Trưởng dự án</option>
                                     <% } %>
-                                    <% if (user.designation != "Business Analyst"){ %>
-                                    <option value="Business Analyst">Phân tích kinh doanh</option>
+                                    <% if (employee.designation != "Business Analyst"){ %>
+                                    <option value="Business Analyst">
+                                        Phân tích kinh doanh</option>
                                     <% } %>
-                                    <% if (user.designation != "Human Resource Manager"){ %>
-                                    <option value="Human Resource Manager">Giám đốc nhân sự</option>
+                                    <% if (employee.designation != "Human Resource Manager"){ %>
+                                    <option value="Human Resource Manager">
+                                        Giám đốc nhân sự</option>
                                     <% } %>
-                                    <% if (user.designation != "Software Developer"){ %>
+                                    <% if (employee.designation != "Software Developer"){ %>
                                     <option value="Software Developer">
                                         Người phát triển phần mềm</option>
                                     <% } %>
-                                    <% if (user.designation != "Quality Analyst"){ %>
+                                    <% if (employee.designation != "Quality Analyst"){ %>
                                     <option value="Quality Analyst">Chuyên viên phân tích chất lượng</option>
                                     <% } %>
                                 </select>
 
-                                <% }else{ %>
-
-                                <select class="form-control" id="designation" name="designation">
-                                    <option value="N/A">N/A</option>
-                                    <option value="System Analyst">Nhà phân tích hệ thống</option>
-                                    <option value="Accounts Manager">Quản lý tài khoản</option>
-                                    <option value="Project Manager">Quản lý dự án</option>
-                                    <option value="Software Engineer">Kỹ sư phần mềm</option>
-                                    <option value="Software Engineer">Kỹ sư phần mềm</option>
-                                    <option value="Project Lead">Trưởng dự án</option>
-                                    <option value="Business Analyst">Phân tích kinh doanh</option>
-                                    <option value="Human Resource Manager">Giám đốc nhân sự</option>
-                                    <option value="Software Developer">Người phát triển phần mềm</option>
-                                    <option value="Quality Analyst">Chuyên viên phân tích chất lượng</option>
-                                </select>
-                                <% } %>
                             </div>
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="button" onclick="history.go(-1);" class="btn btn-default">Hủy bỏ</button>
-                            <button type="submit" class="btn btn-default">Đăng ký</button>
+                            <button type="submit" class="btn btn-default">Lưu thay đổi</button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -340,10 +265,9 @@
 
 </script>
 <script>
-
     $(document).ready(function () {
         $('.selectpicker').selectpicker();
-        $('#menu3').click();
+
         var box1height = $('#menu1').height();
         // Set box2 height equal to box1
         $('#sidebar-wrapper').height(box1height * 1.2);
@@ -354,6 +278,27 @@
     });
 </script>
 </body>
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">xác nhận</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Bạn có chắc chắn muốn chỉnh sửa thông tin.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Có</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div id="myModal2" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -362,10 +307,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Dánh dấu tham dự</h4>
+                    <h4 class="modal-title">Đánh dấu tham dự</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Bạn có chắc chắn muốn đánh dấu tham dự.</p>
+                    <p>
+                        Bạn có chắc chắn muốn đánh dấu tham dự.</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -385,11 +331,12 @@
             <form method="post" action="/admin/view-attendance">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Chọn Tháng/Năm</h4>
+                    <h4 class="modal-title">
+                        Chọn Tháng/Năm</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="Month">Month:</label>
+                        <label for="Month">Tháng:</label>
                         <select class="form-control" id="month" name="month">
                             <option value="1">Tháng 1</option>
                             <option value="2">Tháng 2</option>
@@ -406,7 +353,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="year">Năm:</label>
+                        <label for="year">năm:</label>
                         <select class="form-control" id="year" name="year">
                         </select>
                     </div>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HRMS|<%= title %></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css"/>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <link href="/stylesheets/bootstrap-select.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+</head>
+<body>
+<nav class="navbar navbar-default no-margin">
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <div class="navbar-header fixed-brand">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
+            <span class="glyphicon glyphicon-th-large" style="margin-left:5px;" aria-hidden="true"></span>
+        </button>
+        <a class="navbar-brand" href="#"><i class="fa fa-a fa-4"></i> <%=userName%></a>
+    </div><!-- navbar-header-->
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="active"  ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+            <li class="navbar-brand"><form action ="/logout" method="get"><button id="logout"  type="submit" style="margin-top: -3px;"  class="btn btn-default"><i class="fa fa-user" aria-hidden="true"></i> Đăng xuất</button></form></li>
+        </ul>
+    </div><!-- bs-example-navbar-collapse-1 -->
+</nav>
+<div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+
+            <li >
+                <a href="#" id="menu3"><span class="fa-stack fa-lg pull-left"><i class="fa fa-users fa-stack-1x "></i></span> Nhân viên</a>
+                <ul class="nav-pills nav-stacked"   style="list-style-type:none;">
+                    <li><a href="/admin/view-all-employees"><span class="fa-stack fa-lg pull-left"><i class="fa fa-eye fa-stack-1x "></i></span>Xem nhân viên</a></li>
+                    <li ><a href="/admin/add-employee"><span class="fa-stack fa-lg pull-left"><i class="fa fa-plus fa-stack-1x "></i></span>Thêm nhân viên</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/admin/leave-applications"><span class="fa-stack fa-lg pull-left"><i class="fa fa-envelope-square fa-stack-1x "></i></span> Đơn xin nghỉ phép</a></li>
+            <li data-toggle="modal" data-target="#myModal">
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem điểm danh</a>
+            </li>
+            <li data-toggle="modal" data-target="#myModal2">
+                <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-check-circle fa-stack-1x "></i></span>
+                    Đánh dấu tham dự</a>
+            </li>
+            <li>
+                <a href="/admin/view-profile"><span class="fa-stack fa-lg pull-left"><i class="fa fa-user fa-stack-1x "></i></span>Xe hồ sơ</a>
+            </li>
+        </ul>
+    </div><!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid xyz">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="menu1" style="height:717px">
+                    <h1>Application's Details</h1>
+                    <br>
+                    <form class="form-group-sm" action="/admin/respond-application" method="post">
+                        <h4>Tiêu đề : <label id="title"><%=leave.title%></label></h4>
+                        <h4>Kiểu : <label id="type"><%=leave.type%></label></h4>
+                        <h4>Tên người nộp đơn : <label id="name"><%=employee.name%></label></h4>
+                        <h4>Email của ứng viên : <label id="email"><%=employee.email%></label></h4>
+                        <h4>
+                            Khoảng thời gian (Ngày): <label id="period"><%=leave.period%></label></h4>
+                        <h4>
+                            Ngày bắt đầu : <label id="start"><%=moment(leave.startDate).format('MMMM Do YYYY')%></label></h4>
+                        <h4>
+                            Ngày Kết thúc : <label id="end"><%=moment(leave.end_date).format('MMMM Do YYYY')%></label></h4>
+                        <h4>Ngày áp dụng: <label id="end"><%=moment(leave.end_date).format('MMMM Do YYYY')%></label></h4>
+                        <h4 style="font-size: x-large">
+                            Lý do:</h4>
+                       <div style="height: 100%; overflow: auto;">
+                        <p style="font-family: 'Arial Nova'; font-size: medium" id="reason" style="word-wrap:break-word"><%=leave.reason%></p>
+                       </div>
+                        <div class="form-group">
+                            <label for="status"><h4 style="font-size: x-large">Trạng thái:</h4></label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="<%=leave.adminResponse%>"><%=leave.adminResponse%></option>
+                                <% if(leave.adminResponse!="Pending"){%>
+                                <option value="Pending">Chưa giải quyết</option>
+                                <%}%>
+                                <% if(leave.adminResponse!="Approved"){%>
+                                <option value="Approved">Tán thành</option>
+                                <%}%>
+                                <% if(leave.adminResponse!="Disapproved"){%>
+                                <option value="Disapproved">
+                                    Bị từ chối</option>
+                                <%}%>
+
+                            </select>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                        <input type="hidden" id="leave_id" name="leave_id" value="<%=leave._id%>">
+                        <button type="button" onclick="history.go(-1);" class="btn btn-default">
+                            Quay lại</button>
+                        <button type="submit"  class="btn btn-default">
+                            Gửi phản hồi</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.js" charset="UTF-8"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js" charset="UTF-8"></script>
+<script src="/javascripts/sidebar_menu.js"></script>
+<script>
+    $(document).ready(function () {
+        var box1height =  $('#menu1').height();
+        // Set box2 height equal to box1
+        $('#sidebar-wrapper').height(box1height*1.1);
+        for (i = new Date().getFullYear(); i > 1950; i--)
+        {
+            $('#year').append($('<option />').val(i).html(i));
+        }
+
+    });
+</script>
+</body>
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    xác nhận</h4>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn phê duyệt ứng dụng này.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Không</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Có</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <form method="post" action="/admin/mark-attendance">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">đánh dấu tham dự</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Bạn có chắc chắn muốn đánh dấu tham dự.</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Không</button>
+                    <button type="submit" class="btn btn-default" >Có</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form method="post" action="/admin/view-attendance">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Chọn Tháng/Năm</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Month">Tháng:</label>
+                        <select class="form-control" id="month" name="month">
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Năm:</label>
+                        <select class="form-control" id="year" name="year">
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-default" >Xem</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</html>
