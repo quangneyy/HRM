@@ -129,10 +129,10 @@
                                 <% if (hasErrors){ %>
                                 <input type="text" pattern="/(84|0[3|5|7|8|9])+([0-9]{8})\b/g"
                                        value="<%= user.contactNumber %>" class="form-control" required="required"
-                                       placeholder="e.g. XXXX-XXXXXXX" id="number" name="number">
+                                       placeholder="" id="number" name="number">
                                 <% }else{ %>
                                 <input type="text" pattern="/(84|0[3|5|7|8|9])+([0-9]{8})\b/g"
-                                       class="form-control" required="required" placeholder="e.g. XXXX-XXXXXXX"
+                                       class="form-control" required="required" placeholder=""
                                        id="number" name="number">
                                 <% } %>
 

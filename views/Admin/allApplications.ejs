@@ -82,11 +82,11 @@
                             <thead>
                             <tr>
                                 <th>Người nộp đơn</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Applied Date</th>
-                                <th>Period(Days)</th>
-                                <th>Status</th>
+                                <th>Tiêu đề</th>
+                                <th>Loại</th>
+                                <th>Ngày nộp</th>
+                                <th>Khoảng thời gian(Ngày)</th>
+                                <th>Trạng thái</th>
 
                                 <th></th>
                             </tr>
@@ -94,11 +94,11 @@
                             <tfoot>
                             <tr>
                                 <th>Applicant's Name</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Applied Date</th>
+                                <th>Tiêu đề</th>
+                                <th>Loại</th>
+                                <th>Ngày Nộp</th>
                                 <th>Period(Days)</th>
-                                <th>Status</th>
+                                <th>Trạng thái</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -108,7 +108,7 @@
                                 <td><%= employees[i].name %></td>
                                 <td><%= leaves[i].title %></td>
                                 <td><%= leaves[i].type %></td>
-                                <td><%= moment(leaves[i].appliedDate).format('MMMM Do YYYY') %></td>
+                                <td><%= moment(leaves[i].appliedDate).format('MM/DD/YYYY') %></td>
                                 <td><%= leaves[i].period %></td>
                                 <td><%= leaves[i].adminResponse %></td>
                                 <td>

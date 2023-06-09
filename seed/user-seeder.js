@@ -11,7 +11,7 @@ var users = [
     password: bcrypt.hashSync("hale123", bcrypt.genSaltSync(5), null),
     name: "Ha Le",
     dateOfBirth: new Date("1990-05-26"),
-    contactNumber: "0333-4552191",
+    contactNumber: "0976546789",
   }),
   new User({
     type: "accounts_manager",
@@ -19,7 +19,7 @@ var users = [
     password: bcrypt.hashSync("lynguyen123", bcrypt.genSaltSync(5), null),
     name: "Ly Nguyen",
     dateOfBirth: new Date("1990-05-26"),
-    contactNumber: "0300-4814710",
+    contactNumber: "0987456789",
   }),
   new User({
     type: "employee",
@@ -27,7 +27,7 @@ var users = [
     password: bcrypt.hashSync("123456", bcrypt.genSaltSync(5), null),
     name: "Vien Tran",
     dateOfBirth: new Date("1990-05-26"),
-    contactNumber: "0333-4552191",
+    contactNumber: "0974653456",
   }),
   new User({
     type: "employee",
@@ -35,7 +35,7 @@ var users = [
     password: bcrypt.hashSync("123456", bcrypt.genSaltSync(5), null),
     name: "San Ha",
     dateOfBirth: new Date("1990-05-26"),
-    contactNumber: "0300-4814710",
+    contactNumber: "0965789543",
   }),
   new User({
     type: "admin",
@@ -43,7 +43,7 @@ var users = [
     password: bcrypt.hashSync("admin123", bcrypt.genSaltSync(5), null),
     name: "Chuc nguyen",
     dateOfBirth: new Date("1990-05-26"),
-    contactNumber: "0300-4297859",
+    contactNumber: "0546734890",
   }),
 ];
 //save function is asynchronous

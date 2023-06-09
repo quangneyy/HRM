@@ -69,9 +69,9 @@
                         <h4>Applicant's Name : <label id="name"><%=employee.name%></label></h4>
                         <h4>Applicant's Email : <label id="email"><%=employee.email%></label></h4>
                         <h4>Period(Days): <label id="period"><%=leave.period%></label></h4>
-                        <h4>Start Date : <label id="start"><%=moment(leave.startDate).format('MMMM Do YYYY')%></label></h4>
-                        <h4>End Date : <label id="end"><%=moment(leave.end_date).format('MMMM Do YYYY')%></label></h4>
-                        <h4>Applied Date : <label id="end"><%=moment(leave.end_date).format('MMMM Do YYYY')%></label></h4>
+                        <h4>Start Date : <label id="start"><%=moment(leave.startDate).format('MM/DD/YYYY')%></label></h4>
+                        <h4>End Date : <label id="end"><%=moment(leave.end_date).format('MM/DD/YYYY')%></label></h4>
+                        <h4>Applied Date : <label id="end"><%=moment(leave.end_date).format('MM/DD/YYYY')%></label></h4>
                         <h4 style="font-size: x-large">Reason:</h4>
                        <div style="height: 100%; overflow: auto;">
                         <p style="font-family: 'Arial Nova'; font-size: medium" id="reason" style="word-wrap:break-word"><%=leave.reason%></p>
@@ -81,13 +81,13 @@
                             <select class="form-control" id="status" name="status">
                                 <option value="<%=leave.adminResponse%>"><%=leave.adminResponse%></option>
                                 <% if(leave.adminResponse!="Pending"){%>
-                                <option value="Pending">Pending</option>
+                                <option value="Pending">Chờ phê duyệt</option>
                                 <%}%>
                                 <% if(leave.adminResponse!="Approved"){%>
-                                <option value="Approved">Approved</option>
+                                <option value="Approved">Chấp thuận</option>
                                 <%}%>
                                 <% if(leave.adminResponse!="Disapproved"){%>
-                                <option value="Disapproved">Disapproved</option>
+                                <option value="Disapproved">Không chấp thuận</option>
                                 <%}%>
 
                             </select>

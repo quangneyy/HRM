@@ -40,20 +40,9 @@ router.get("/logout", isLoggedIn, function logoutUser(req, res, next) {
   res.redirect("/");
 });
 
-router.get("/dummy", function (req, res, next) {
-  var userChunks = [];
-  var chunkSize = 3;
-  //find is asynchronous function
-  User.find({ type: "employee" }, function (err, docs) {
-    for (var i = 0; i < docs.length; i++) {
-      userChunks.push(docs[i]);
-    }
-    res.render("dummy", { title: "Dummy", users: userChunks });
-  });
-});
-
 router.get("/check-type", function checkTypeOfLoggedInUser(req, res, next) {
   req.session.user = req.user;
+  console.log(req.user.type);
   if (req.user.type == "project_manager") {
     res.redirect("/manager/");
   } else if (req.user.type == "accounts_manager") {
