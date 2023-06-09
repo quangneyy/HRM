@@ -28,7 +28,7 @@ router.get("/view-profile", function viewProfile(req, res, next) {
       console.log(err);
     }
     res.render("Admin/viewProfile", {
-      title: "Profile",
+      title: "Hồ Sơ",
       csrfToken: req.csrfToken(),
       employee: user,
       moment: moment,
@@ -67,7 +67,7 @@ router.get("/add-employee", function addEmployee(req, res, next) {
   var newUser = new User();
 
   res.render("Admin/addEmployee", {
-    title: "Add Employee",
+    title: "Thêm nhân viên",
     csrfToken: req.csrfToken(),
     user: config_passport.User,
     messages: messages,
@@ -98,7 +98,7 @@ router.get(
             console.log(err);
           }
           res.render("Admin/employeeAllProjects", {
-            title: "List Of Employee Projects",
+            title: "Danh sách các dự án của nhân viên",
             hasProject: hasProject,
             projects: projectChunks,
             csrfToken: req.csrfToken(),
@@ -143,7 +143,7 @@ router.get(
         setTimeout(render_view, 900);
         function render_view() {
           res.render("Admin/allApplications", {
-            title: "List Of Leave Applications",
+            title: "Danh Sách Đơn Xin Nghỉ Phép",
             csrfToken: req.csrfToken(),
             hasLeave: hasLeave,
             leaves: leaveChunks,
@@ -170,7 +170,7 @@ router.get(
           console.log(err);
         }
         res.render("Admin/applicationResponse", {
-          title: "Respond Leave Application",
+          title: "Trả lời đơn xin nghỉ phép",
           csrfToken: req.csrfToken(),
           leave: leave,
           employee: user,
@@ -191,7 +191,7 @@ router.get(
         console.log(err);
       }
       res.render("Admin/employeeProfile", {
-        title: "Employee Profile",
+        title: "Hồ sơ nhân viên",
         employee: user,
         csrfToken: req.csrfToken(),
         moment: moment,
@@ -208,7 +208,7 @@ router.get("/edit-employee/:id", function editEmployee(req, res, next) {
       res.redirect("/admin/");
     }
     res.render("Admin/editEmployee", {
-      title: "Edit Employee",
+      title: "Chỉnh sửa thông tin nhân viên",
       csrfToken: req.csrfToken(),
       employee: user,
       moment: moment,
@@ -227,7 +227,7 @@ router.get(
         console.log(err);
       }
       res.render("Admin/editProject", {
-        title: "Edit Employee",
+        title: "Chỉnh sửa dự án nhân viên",
         csrfToken: req.csrfToken(),
         project: project,
         moment: moment,
@@ -247,7 +247,7 @@ router.get(
         res.redirect("/admin/");
       }
       res.render("Admin/addProject", {
-        title: "Add Employee Project",
+        title: "Thêm dự án cho nhân viên",
         csrfToken: req.csrfToken(),
         employee: user,
         moment: moment,
@@ -271,7 +271,7 @@ router.get(
           console.log(err);
         }
         res.render("Admin/projectInfo", {
-          title: "Employee Project Information",
+          title: "Thông tin dự án nhân viên",
           project: project,
           employee: user,
           moment: moment,
@@ -314,7 +314,7 @@ router.post("/view-attendance", function viewAttendance(req, res, next) {
         attendanceChunks.push(docs[i]);
       }
       res.render("Admin/viewAttendanceSheet", {
-        title: "Attendance Sheet",
+        title: "Phiếu điểm danh",
         month: req.body.month,
         csrfToken: req.csrfToken(),
         found: found,
@@ -345,7 +345,7 @@ router.get(
           attendanceChunks.push(docs[i]);
         }
         res.render("Admin/viewAttendanceSheet", {
-          title: "Attendance Sheet",
+          title: "Phiếu điểm danh",
           month: new Date().getMonth() + 1,
           csrfToken: req.csrfToken(),
           found: found,
@@ -374,7 +374,7 @@ router.get(
 
         User.findById(req.params.id, function getUser(err, user) {
           res.render("Admin/employeeAttendanceSheet", {
-            title: "Employee Attendance Sheet",
+            title: "Bảng chấm công nhân viên",
             month: req.body.month,
             csrfToken: req.csrfToken(),
             found: found,
@@ -438,11 +438,11 @@ router.post("/edit-employee/:id", function editEmployee(req, res) {
         }
         if (user) {
           res.render("Admin/editEmployee", {
-            title: "Edit Employee",
+            title: "Chỉnh sửa thông tin nhân viên",
             csrfToken: req.csrfToken(),
             employee: newUser,
             moment: moment,
-            message: "Email is already in use",
+            message: "Email đã tồn tại",
             userName: req.session.user.name,
           });
         }

@@ -23,7 +23,7 @@ router.get("/", function viewHome(req, res, next) {
 
 router.get("/apply-for-leave", function applyForLeave(req, res, next) {
   res.render("Employee/applyForLeave", {
-    title: "Apply for Leave",
+    title: "Nộp đơn xin nghỉ phép",
     csrfToken: req.csrfToken(),
     userName: req.session.user.name,
   });
@@ -45,7 +45,7 @@ router.get("/applied-leaves", function viewAppliedLeaves(req, res, next) {
       }
 
       res.render("Employee/appliedLeaves", {
-        title: "List Of Applied Leaves",
+        title: "Danh Sách Đơn Nghỉ Phép",
         csrfToken: req.csrfToken(),
         hasLeave: hasLeave,
         leaves: leaveChunks,
@@ -71,7 +71,7 @@ router.post("/view-attendance", function viewAttendanceSheet(req, res, next) {
         attendanceChunks.push(docs[i]);
       }
       res.render("Employee/viewAttendance", {
-        title: "Attendance Sheet",
+        title: "Phiếu điểm danh",
         month: req.body.month,
         csrfToken: req.csrfToken(),
         found: found,
@@ -102,7 +102,7 @@ router.get(
           attendanceChunks.push(docs[i]);
         }
         res.render("Employee/viewAttendance", {
-          title: "Attendance Sheet",
+          title: "Phiếu điểm danh",
           month: new Date().getMonth() + 1,
           csrfToken: req.csrfToken(),
           found: found,
@@ -120,7 +120,7 @@ router.get("/view-profile", function viewProfile(req, res, next) {
       console.log(err);
     }
     res.render("Employee/viewProfile", {
-      title: "Profile",
+      title: "Hồ sơ",
       csrfToken: req.csrfToken(),
       employee: user,
       moment: moment,
@@ -142,7 +142,7 @@ router.get("/view-all-projects", function viewAllProjects(req, res, next) {
         projectChunks.push(docs[i]);
       }
       res.render("Employee/viewPersonalProjects", {
-        title: "List Of Projects",
+        title: "Danh sách dự án",
         hasProject: hasProject,
         projects: projectChunks,
         csrfToken: req.csrfToken(),
@@ -158,7 +158,7 @@ router.get("/view-project/:project_id", function viewProject(req, res, next) {
       console.log(err);
     }
     res.render("Employee/viewProject", {
-      title: "Project Details",
+      title: "Chi tiết dự án",
       project: project,
       csrfToken: req.csrfToken(),
       moment: moment,

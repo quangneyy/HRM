@@ -60,7 +60,7 @@
                                 class="fa fa-envelope-square fa-stack-1x "></i></span>Nộp đơn xin nghỉ phép<</a>
             </li>
             <li data-toggle="modal" data-target="#myModal">
-                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem tham dự</a>
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem chấm công</a>
             </li>
             <li data-toggle="modal" data-target="#myModal2">
                 <a href="#"><span class="fa-stack fa-lg pull-left"><i
@@ -77,52 +77,52 @@
         <div class="container-fluid xyz">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1>Performance Appraisal</h1>
-                    <h3>Employee: <%= employee.name %></h3>
+                    <h1>Đánh giá hiệu suất</h1>
+                    <h3>Nhân viên: <%= employee.name %></h3>
 
                     <br>
                     <div id="menu1" style="height:717px;overflow: auto;">
                         <form action="/manager/provide-performance-appraisal" method="post">
                             <div class="form-group">
-                                <label for="performance_rating">Performance Rating:</label>
+                                <label for="performance_rating">Xếp hạng hiệu suất:</label>
                                 <input id="performance_rating" name="performance_rating" value="3" mi
                                        data-show-clear="false" class="rating-loading">
                             </div>
                             <div class="form-group">
-                                <label for="expertise">Position Expertise:</label>
+                                <label for="expertise">Vị trí chuyên môn:</label>
                                 <input type="text" class="form-control" required="required" id="expertise"
                                        name="expertise">
                             </div>
                             <div class="form-group">
-                                <label for="approach_quality">Approach towards Quality Of Work:</label>
+                                <label for="approach_quality">Phương pháp tiếp cận chất lượng công việc:</label>
                                 <input type="text" class="form-control" required="required" id="approach_quality"
                                        name="approach_quality">
                             </div>
                             <div class="form-group">
-                                <label for="approach_quantity">Approach Towards Quantity Of Work:</label>
+                                <label for="approach_quantity">Cách tiếp cận theo số lượng công việc:</label>
                                 <input type="text" class="form-control" required="required" id="approach_quantity"
                                        name="approach_quantity">
                             </div>
                             <div class="form-group">
-                                <label for="lead_manage">Leadership and Management Skills:</label>
+                                <label for="lead_manage">Kỹ năng lãnh đạo và quản lý:</label>
                                 <textarea name="lead_manage" class="form-control" required="required"
                                           style="resize: none" id="lead_manage" rows="3"></textarea></p>
                             </div>
                             <div class="form-group">
-                                <label for="skills_com">Communication Skills:</label>
+                                <label for="skills_com">Kĩ năng giao tiếp:</label>
                                 <textarea name="skills_com" class="form-control" required="required"
                                           style="resize: none" id="skills_com" rows="3"></textarea></p>
                             </div>
                             <div class="form-group">
-                                <label for="comments">Comments On Overall Performance:</label>
+                                <label for="comments">Nhận xét về hiệu suất tổng thể:</label>
                                 <textarea name="comments" class="form-control" required="required" style="resize: none"
                                           id="comments" rows="3"></textarea></p>
                             </div>
                             <br>
                             <input type="hidden" id="employee_id" name="employee_id" value="<%= employee._id %>">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button type="button" onclick="history.go(-1);" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-default">Submit</button>
+                            <button type="button" onclick="history.go(-1);" class="btn btn-default">Huỷ</button>
+                            <button type="submit" class="btn btn-default">Nộp</button>
                         </form>
                     </div>
                 </div>
@@ -168,16 +168,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Mark Attendance</h4>
+                    <h4 class="modal-title">Đánh dấu chấm công</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to mark attendance.</p>
+                    <p>Bạn có chắc chắn muốn chấm công.</p>
                 </div>
                 <div class="modal-footer">
 
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-default">Yes</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Không</button>
+                    <button type="submit" class="btn btn-default">Có</button>
                 </div>
 
             </div>
@@ -192,36 +192,36 @@
             <form method="post" action="/manager/view-attendance">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Month/Year</h4>
+                    <h4 class="modal-title">Chọn Month/Year</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="Month">Month:</label>
+                        <label for="Month">Tháng:</label>
                         <select class="form-control" id="month" name="month">
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="year">Year:</label>
+                        <label for="year">Năm:</label>
                         <select class="form-control" id="year" name="year">
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-default">View</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-default">Xem</button>
                 </div>
             </form>
         </div>

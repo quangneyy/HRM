@@ -32,7 +32,7 @@
             <li class="navbar-brand">
                 <form action="/logout" method="get">
                     <button id="logout" type="submit" style="margin-top: -3px;" class="btn btn-default"><i
-                                class="fa fa-user" aria-hidden="true"></i> Logout
+                                class="fa fa-user" aria-hidden="true"></i> Đăng xuất
                     </button>
                 </form>
             </li>
@@ -46,28 +46,27 @@
 
             <li>
                 <a href="#" id="menu3"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-users fa-stack-1x "></i></span> Employees</a>
+                                class="fa fa-users fa-stack-1x "></i></span> Nhân viên</a>
                 <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                     <li><a href="/admin/view-all-employees"><span class="fa-stack fa-lg pull-left"><i
-                                        class="fa fa-eye fa-stack-1x "></i></span>View Employees</a></li>
+                                        class="fa fa-eye fa-stack-1x "></i></span>Xem nhân viên</a></li>
                     <li><a href="/admin/add-employee"><span class="fa-stack fa-lg pull-left"><i
-                                        class="fa fa-plus fa-stack-1x "></i></span>Add Employees</a></li>
+                                        class="fa fa-plus fa-stack-1x "></i></span>Thêm nhân viên</a></li>
                 </ul>
             </li>
             <li>
                 <a href="/admin/leave-applications"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-envelope-square fa-stack-1x "></i></span> Leave Applications</a></li>
+                                class="fa fa-envelope-square fa-stack-1x "></i></span> Đơn xin nghỉ phép</a></li>
             <li data-toggle="modal" data-target="#myModal">
-                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>View
-                    Attendance</a>
+                <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-list-ol fa-stack-1x "></i></span>Xem chấm công</a>
             </li>
             <li data-toggle="modal" data-target="#myModal2">
                 <a href="#"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-check-circle fa-stack-1x "></i></span>Mark Attendance</a>
+                                class="fa fa-check-circle fa-stack-1x "></i></span>Đánh dấu chấm công</a>
             </li>
             <li>
                 <a href="/admin/view-profile"><span class="fa-stack fa-lg pull-left"><i
-                                class="fa fa-user fa-stack-1x "></i></span>View Profile</a>
+                                class="fa fa-user fa-stack-1x "></i></span>Xem Hồ Sơ</a>
             </li>
         </ul>
     </div><!-- /#sidebar-wrapper -->
@@ -77,18 +76,18 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div id="menu1" style="height:717px;">
-                        <h1>Project Information</h1>
+                        <h1>Thông tin dự án</h1>
                         <br>
                         <form class="form-group-sm">
-                            <h4>Employee: <label id="title"><%= employee.name %></label></h4>
-                            <h4>Title : <label id="title"><%= project.title %></label></h4>
-                            <h4>Type : <label id="type"><%= project.type %></label></h4>
-                            <h4>Status : <label id="status"><%= project.status %></label></h4>
-                            <h4>Start Date : <label
-                                        id="start"><%= moment(project.startDate).format('MMMM Do YYYY'); %></label></h4>
-                            <h4>End Date : <label
-                                        id="end"><%= moment(project.endDate).format('MMMM Do YYYY'); %></label></h4><br>
-                            <h4 style="font-size: x-large">Description:</h4>
+                            <h4>Nhân viên: <label id="title"><%= employee.name %></label></h4>
+                            <h4>Tiêu đề : <label id="title"><%= project.title %></label></h4>
+                            <h4>Loại : <label id="type"><%= project.type %></label></h4>
+                            <h4>Trạng thái : <label id="status"><%= project.status %></label></h4>
+                            <h4>Ngày bắt đầu : <label
+                                        id="start"><%= moment(project.startDate).format('DD/MM/YYYY'); %></label></h4>
+                            <h4>Ngày kết thúc : <label
+                                        id="end"><%= moment(project.endDate).format('DD/MM/YYYY'); %></label></h4><br>
+                            <h4 style="font-size: x-large">Miêu tả:</h4>
                             <div style="height: 250px; overflow: auto;">
                                 <p style="font-family: 'Arial Nova'; font-size: medium" id="description"
                                    style="word-wrap: break-word;"><%= project.description; %></p>
@@ -127,15 +126,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Mark Attendance</h4>
+                    <h4 class="modal-title">Đánh dấu chấm công</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to mark attendance.</p>
+                    <p>Bạn có chắc chắn muốn chấm công.</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-default">Yes</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Không</button>
+                    <button type="submit" class="btn btn-default">Có</button>
                 </div>
 
             </div>
@@ -150,36 +149,36 @@
             <form method="post" action="/admin/view-attendance">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Month/Year</h4>
+                    <h4 class="modal-title">Chọn Tháng/Năm</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="Month">Month:</label>
+                        <label for="Month">Tháng:</label>
                         <select class="form-control" id="month" name="month">
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="year">Year:</label>
+                        <label for="year">Năm:</label>
                         <select class="form-control" id="year" name="year">
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-default">View</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-default">Xem</button>
                 </div>
             </form>
         </div>

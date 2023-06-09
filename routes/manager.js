@@ -36,7 +36,7 @@ router.get("/view-employees", function viewEmployees(req, res) {
           userChunks.push(docs[i]);
         }
         res.render("Manager/viewemp_project", {
-          title: "List Of Employees",
+          title: "Danh sách nhân viên",
           csrfToken: req.csrfToken(),
           users: userChunks,
           errors: 0,
@@ -97,7 +97,7 @@ router.get("/view-employees", function viewEmployees(req, res) {
     setTimeout(render_view, 2000);
     function render_view() {
       res.render("Manager/viewemp_accountant", {
-        title: "List Of Employees",
+        title: "Danh sách nhân viên",
         csrfToken: req.csrfToken(),
         users: userChunks,
         salary: salaryChunks,
@@ -116,7 +116,7 @@ router.get(
         console.log(err);
       }
       res.render("Manager/employeeSkills", {
-        title: "List Of Employee Skills",
+        title: "Danh sách kỹ năng của nhân viên",
         employee: user,
         moment: moment,
         csrfToken: req.csrfToken(),
@@ -148,7 +148,7 @@ router.get(
             console.log(err);
           }
           res.render("Manager/employeeAllProjects", {
-            title: "List Of Employee Projects",
+            title: "Danh sách các dự án của nhân viên",
             hasProject: hasProject,
             projects: projectChunks,
             csrfToken: req.csrfToken(),
@@ -173,7 +173,7 @@ router.get(
           console.log(err);
         }
         res.render("Manager/projectInfo", {
-          title: "Employee Project Information",
+          title: "Thông tin dự án nhân viên",
           project: project,
           employee: user,
           moment: moment,
@@ -200,7 +200,7 @@ router.get(
               userChunks.push(docs[i]);
             }
             res.render("Manager/viewemp_project", {
-              title: "List Of Employees",
+              title: "Danh sách nhân viên",
               csrfToken: req.csrfToken(),
               users: userChunks,
               errors: 1,
@@ -213,7 +213,7 @@ router.get(
               console.log(err);
             }
             res.render("Manager/performance_appraisal", {
-              title: "Provide Performance Appraisal",
+              title: "Cung cấp đánh giá hiệu suất",
               csrfToken: req.csrfToken(),
               employee: user,
               moment: moment,
@@ -247,7 +247,7 @@ router.get(
           attendanceChunks.push(docs[i]);
         }
         res.render("Manager/viewAttendance", {
-          title: "Attendance Sheet",
+          title: "Phiếu tham dự",
           month: new Date().getMonth() + 1,
           csrfToken: req.csrfToken(),
           found: found,
@@ -261,7 +261,7 @@ router.get(
 
 router.get("/apply-for-leave", function applyForLeave(req, res, next) {
   res.render("Manager/managerApplyForLeave", {
-    title: "Apply for Leave",
+    title: "Nộp đơn xin nghỉ phép",
     csrfToken: req.csrfToken(),
     userName: req.session.user.name,
   });
@@ -283,7 +283,7 @@ router.get("/applied-leaves", function appliedLeaves(req, res, next) {
       }
 
       res.render("Manager/managerAppliedLeaves", {
-        title: "List Of Applied Leaves",
+        title: "Danh Sách Đơn Nghỉ Phép",
         csrfToken: req.csrfToken(),
         hasLeave: hasLeave,
         leaves: leaveChunks,
@@ -298,7 +298,7 @@ router.get("/view-profile", function viewProfile(req, res, next) {
       console.log(err);
     }
     res.render("Manager/viewManagerProfile", {
-      title: "Profile",
+      title: "Hồ Sơ",
       csrfToken: req.csrfToken(),
       employee: user,
       moment: moment,
@@ -314,7 +314,7 @@ router.get("/view-project/:project_id", function viewProject(req, res, next) {
       console.log(err);
     }
     res.render("Manager/viewManagerProject", {
-      title: "Project Details",
+      title: "Chi tiết dự án",
       project: project,
       csrfToken: req.csrfToken(),
       moment: moment,
@@ -338,7 +338,7 @@ router.get(
           projectChunks.push(docs[i]);
         }
         res.render("Manager/viewManagerPersonalProjects", {
-          title: "List Of Projects",
+          title: "Danh sách các dự án",
           hasProject: hasProject,
           projects: projectChunks,
           csrfToken: req.csrfToken(),
@@ -383,7 +383,7 @@ router.get(
         setTimeout(render_view, 900);
         function render_view() {
           res.render("Manager/generatePaySlip", {
-            title: "Generate Pay Slip",
+            title: "Tạo phiếu lương",
             csrfToken: req.csrfToken(),
             employee: user,
             pay_slip: pay_slip,
@@ -533,7 +533,7 @@ router.post("/view-attendance", function viewAttendance(req, res, next) {
         attendanceChunks.push(docs[i]);
       }
       res.render("Manager/viewAttendance", {
-        title: "Attendance Sheet",
+        title: "Phiếu điểm danh",
         month: req.body.month,
         csrfToken: req.csrfToken(),
         found: found,
